@@ -17,6 +17,7 @@ add_executable(${PROJECT_NAME} main.cpp
     ${${PROJECT_NAME}_SRC}
     ${${PROJECT_NAME}_HEADERS})
 
-target_include_directories(${PROJECT_NAME} PRIVATE "include")
+target_include_directories(${PROJECT_NAME} PRIVATE "include"
+    lib/spdlog/include)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core)
