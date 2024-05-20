@@ -1,11 +1,15 @@
+#include <Logger.h>
+#include <MainWindow.h>
+
+#include <QApplication>
 #include <QDebug>
-#include "spdlog/spdlog.h"
 
-int main()
-{
-    qDebug() << "Hello, World!";
+int main(int argc, char *argv[]) {
+    logger::init_logger();
 
-    spdlog::info("Hello, World!");
-    spdlog::error("Hello, World!");
-    return 0;
+    QApplication app(argc, argv);
+    MainWindow mainWindow;
+    mainWindow.show();
+    logger::info("Application started");
+    return 1;
 }

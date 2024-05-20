@@ -10,6 +10,7 @@ set(CMAKE_AUTOMOC ON)
 # Qt
 find_package(Qt6 REQUIRED COMPONENTS
     Core
+    Widgets
 )
 
 # third party libs
@@ -17,6 +18,7 @@ set(spdlog_DIR "${CMAKE_SOURCE_DIR}/lib/spdlog/lib/cmake/spdlog")
 find_package(spdlog REQUIRED)
 
 file(GLOB_RECURSE ${PROJECT_NAME}_SRC "src/*.cpp" "src/*.cxx" "src/*.c")
+file(GLOB_RECURSE ${PROJECT_NAME}_HEADERS "include/*.h" "include/*.hpp")
 
 add_executable(${PROJECT_NAME} main.cpp
     ${${PROJECT_NAME}_SRC}
@@ -25,8 +27,16 @@ add_executable(${PROJECT_NAME} main.cpp
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt6::Core
+    Qt6::Widgets
     spdlog::spdlog
 )
+
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/lib/spdlog/include
+    ${CMAKE_SOURCE_DIR}/include
 )
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${CMAKE_SOURCE_DIR}/resources
+    $<TARGET_FILE_DIR:${PROJECT_NAME}>)
