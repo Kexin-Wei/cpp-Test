@@ -8,10 +8,22 @@ a qt based log reader to read spd log more efficiently
 - boost (1.77.0)
 
 ## Features
-- [ ] Open log file
-- [ ] Filter log
-- [ ] Highlight log
-- [ ] Write user action to log and status bar
-- [ ] Save user filter and highlight settings
+- Open log file
+- Filter log
+- Highlight log
+- Write user action to log and status bar
+- Save user filter and highlight settings
+
+## TODO
+- [x] ui design
+- [ ] menu function design
+- [ ] read a log and display
+- [ ] regex find log level and class
+- [ ] add regex result to side bar
+- [ ] filter log given sidebar choices
+- [ ] show user action to status bar
+- [ ] save filter settings for next time
+- [ ] provide highlight mode
+
 
 
