@@ -16,8 +16,8 @@ a qt based log reader to read spd log more efficiently
 
 ## TODO
 - [x] ui design
-- [ ] menu function design
-- [ ] read a log and display
+- [x] menu function design
+- [x] read a log and display
 - [ ] regex find log level and class
 - [ ] add regex result to side bar
 - [ ] filter log given sidebar choices

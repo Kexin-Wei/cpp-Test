@@ -26,7 +26,7 @@ inline void init_logger() {
     std::time_t currentTime = std::chrono::system_clock::to_time_t(now);
     std::tm *localTime = std::localtime(&currentTime);
     std::string currentDateTime = std::asctime(localTime);
-
+    currentDateTime.pop_back();  // remove newline character
     std::string fileName = "logs/log_" + currentDateTime + ".log";
     std::string devFileName = "logs/log_dev_" + currentDateTime + ".log";
 
@@ -56,4 +56,4 @@ inline void init_logger() {
     spdlog::flush_on(spdlog::level::trace);
 };
 }  // namespace spdlog
-namespace logger = spdlog;
+namespace Logger = spdlog;

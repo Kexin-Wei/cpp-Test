@@ -5,12 +5,12 @@
 #include <QDebug>
 
 int main(int argc, char *argv[]) {
-    logger::init_logger();
+    Logger::init_logger();
 
     QApplication app(argc, argv);
     QCoreApplication::setApplicationName("LogReader");
     MainWindow mainWindow;
     mainWindow.show();
-    logger::info("Application started");
+    Logger::info("Application started");
     return app.exec();
 }
