@@ -19,7 +19,7 @@ a qt based log reader to read spd log more efficiently
 - [x] menu function design
 - [x] read a log and display
 - [ ] regex find log level and class
-- [ ] add regex result to side bar
+- [x] add regex result to side bar
 - [ ] filter log given sidebar choices
 - [ ] show user action to status bar
 - [ ] save filter settings for next time

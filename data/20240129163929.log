@@ -1,0 +1,184 @@
+[2024-01-29 16:39:29.804][debug] Logger -- The logger is initialized
+[2024-01-29 16:39:29.804][debug] QJsonSchema -- schema is valid and initialized
+[2024-01-29 16:39:29.806][debug] QJsonSchema -- schema is valid and initialized
+[2024-01-29 16:39:29.806][debug] Setting - Initialized (this should only print once)
+[2024-01-29 16:39:29.806][debug] Logger -- log levels are updated: file -- DEBUG, console -- TRACE, log panel -- 
+[2024-01-29 16:39:29.806][debug] main -- Current language is en
+[2024-01-29 16:39:29.806][debug] true
+[2024-01-29 16:39:29.807][debug] UltrastLicense -- reading (D:/UROPRO/configuration/start_stamp.key)
+[2024-01-29 16:39:29.807][debug] UltrastLicense -- latest date hash check: passed
+[2024-01-29 16:39:29.807][debug] UltrastLicense -- latest date system check: passed
+[2024-01-29 16:39:29.807][debug] UltrastLicense -- start stamp check: passed
+[2024-01-29 16:39:29.807][debug] UltrastLicense -- reading (D:/UROPRO/configuration/license.key)
+[2024-01-29 16:39:29.808][debug] UltrastLicense -- license signature verification: passed
+[2024-01-29 16:39:29.885][debug] UltrastLicense -- license check: passed
+[2024-01-29 16:39:29.886][debug] UltrastLicense -- module(software) validity check: passed
+[2024-01-29 16:39:29.887][debug] GeneralGalilWorker -- Robot command. Size: 14 -- Command: MG TIME;MG _TPA;MG _TPB;MG _TPC;MG _TPD;MG _TEA;MG _TEB;MG _TEC;MG _TED;MG moving;MG init;MG estop;MG acbCon; MG initB;
+[2024-01-29 16:39:29.887][debug] CoordinateRepository -- World To Transmitter -- Transform matrix: 0,-1,0,0,0,0,1,0,-1,0,0,800,0,0,0,1
+[2024-01-29 16:39:29.887][debug] CoordinateRepository -- Split transform matrix of World To Transmitter :
+[2024-01-29 16:39:29.887][debug] GeneralGalilWorker -- 192.168.1.20 -d --timeout 5000
+[2024-01-29 16:39:29.888][debug] CoordinateRepository -- 0 -1 0 0
+[2024-01-29 16:39:29.888][debug] CoordinateRepository -- 0 0 1 0
+[2024-01-29 16:39:29.888][debug] CoordinateRepository -- -1 0 0 800
+[2024-01-29 16:39:29.888][debug] CoordinateRepository -- 0 0 0 1
+[2024-01-29 16:39:29.889][info] Database -- Database opened
+[2024-01-29 16:39:29.894][debug] WelldOldInterface -- code: 0
+[2024-01-29 16:39:29.894][debug] WelldOldInterface -- examIds: 8,
+[2024-01-29 16:39:29.894][debug] WelldOldInterface -- needle guide model size: 2
+[2024-01-29 16:39:29.894][debug] WelldOldInterface -- needle guide case size: 3
+[2024-01-29 16:39:29.895][debug] WelldOldInterface -- code: 1
+[2024-01-29 16:39:29.895][debug] WelldOldInterface -- examIds: 30,26,31,15,
+[2024-01-29 16:39:29.895][debug] WelldOldInterface -- needle guide model size: 1
+[2024-01-29 16:39:29.895][debug] WelldOldInterface -- needle guide case size: 3
+[2024-01-29 16:39:29.895][debug] WelldOldInterface -- code: 2
+[2024-01-29 16:39:29.896][debug] WelldOldInterface -- examIds: 10,1,3,5,
+[2024-01-29 16:39:29.896][debug] WelldOldInterface -- needle guide model size: 1
+[2024-01-29 16:39:29.896][debug] WelldOldInterface -- needle guide case size: 2
+[2024-01-29 16:39:29.896][debug] WelldOldInterface -- code: 3
+[2024-01-29 16:39:29.896][debug] WelldOldInterface -- examIds: 10,1,2,
+[2024-01-29 16:39:29.897][debug] WelldOldInterface -- needle guide model size: 0
+[2024-01-29 16:39:29.897][debug] WelldOldInterface -- needle guide case size: 0
+[2024-01-29 16:39:29.897][debug] WelldOldInterface -- code: 4
+[2024-01-29 16:39:29.897][debug] WelldOldInterface -- examIds: 35,26,8,0,
+[2024-01-29 16:39:29.897][debug] WelldOldInterface -- needle guide model size: 0
+[2024-01-29 16:39:29.898][debug] WelldOldInterface -- needle guide case size: 0
+[2024-01-29 16:39:29.898][debug] WelldOldInterface -- code: 5
+[2024-01-29 16:39:29.898][debug] WelldOldInterface -- examIds: 1,
+[2024-01-29 16:39:29.899][debug] WelldOldInterface -- needle guide model size: 0
+[2024-01-29 16:39:29.899][debug] WelldOldInterface -- needle guide case size: 0
+[2024-01-29 16:39:29.899][debug] WelldOldInterface -- code: 6
+[2024-01-29 16:39:29.899][debug] WelldOldInterface -- examIds: 35,
+[2024-01-29 16:39:29.900][debug] WelldOldInterface -- needle guide model size: 0
+[2024-01-29 16:39:29.900][debug] WelldOldInterface -- needle guide case size: 0
+[2024-01-29 16:39:29.901][debug] WelldOldInterface -- code: 7
+[2024-01-29 16:39:29.901][debug] WelldOldInterface -- examIds: 10,3,
+[2024-01-29 16:39:29.901][debug] WelldOldInterface -- needle guide model size: 2
+[2024-01-29 16:39:29.901][debug] WelldOldInterface -- needle guide case size: 3
+[2024-01-29 16:39:29.902][debug] WelldOldInterface -- code: 8
+[2024-01-29 16:39:29.902][debug] WelldOldInterface -- examIds: 8,11,54,26,
+[2024-01-29 16:39:29.902][debug] WelldOldInterface -- needle guide model size: 1
+[2024-01-29 16:39:29.902][debug] WelldOldInterface -- needle guide case size: 3
+[2024-01-29 16:39:29.903][debug] WelldOldInterface -- code: 9
+[2024-01-29 16:39:29.903][debug] WelldOldInterface -- examIds: 10,1,3,5,
+[2024-01-29 16:39:29.903][debug] WelldOldInterface -- needle guide model size: 1
+[2024-01-29 16:39:29.903][debug] WelldOldInterface -- needle guide case size: 1
+[2024-01-29 16:39:29.904][debug] WelldOldInterface -- code: 10
+[2024-01-29 16:39:29.904][debug] WelldOldInterface -- examIds: 10,30,3,5,
+[2024-01-29 16:39:29.904][debug] WelldOldInterface -- needle guide model size: 1
+[2024-01-29 16:39:29.905][debug] WelldOldInterface -- needle guide case size: 2
+[2024-01-29 16:39:29.905][debug] WelldOldInterface -- code: 11
+[2024-01-29 16:39:29.905][debug] WelldOldInterface -- examIds: 10,
+[2024-01-29 16:39:29.905][debug] WelldOldInterface -- needle guide model size: 1
+[2024-01-29 16:39:29.906][debug] WelldOldInterface -- needle guide case size: 2
+[2024-01-29 16:39:29.906][debug] WelldOldInterface -- code: 12
+[2024-01-29 16:39:29.907][debug] WelldOldInterface -- examIds: 10,
+[2024-01-29 16:39:29.907][debug] WelldOldInterface -- needle guide model size: 1
+[2024-01-29 16:39:29.907][debug] WelldOldInterface -- needle guide case size: 2
+[2024-01-29 16:39:29.907][debug] WelldOldInterface -- code: 13
+[2024-01-29 16:39:29.907][debug] WelldOldInterface -- examIds: 30,52,24,26,
+[2024-01-29 16:39:29.908][debug] WelldOldInterface -- needle guide model size: 0
+[2024-01-29 16:39:29.908][debug] WelldOldInterface -- needle guide case size: 0
+[2024-01-29 16:39:29.908][debug] WelldOldInterface -- code: 14
+[2024-01-29 16:39:29.908][debug] WelldOldInterface -- examIds: 10,30,3,5,
+[2024-01-29 16:39:29.909][debug] WelldOldInterface -- needle guide model size: 3
+[2024-01-29 16:39:29.911][debug] WelldOldInterface -- needle guide case size: 3
+[2024-01-29 16:39:29.914][debug] GeneralGalilWorker -- Successfully open a connection to a Galil Controller
+[2024-01-29 16:39:29.914][warning] HardwareCenter -- Connecting to the tracking device
+[2024-01-29 16:39:29.915][debug] TrackingDeviceController -- Connecting to the tracking device
+[2024-01-29 16:39:29.917][debug] GeneralGalilWorker -- Connection info -- 192.168.1.20, DMC4143 Rev 1.3k, 27939
+[2024-01-29 16:39:29.918][info] TrackingDeviceConnectWorker -- System         : No BIRDs were found anywhere                 
+
+[2024-01-29 16:39:29.918][info] TrackingDeviceConnectWorker -- the tracking device can't be connected, better restart the tracking device and try again
+[2024-01-29 16:39:29.919][debug] MainWindow -- Shortcut bootstraped!
+[2024-01-29 16:39:29.920][debug] MainWindow -- Setting up state machine.
+[2024-01-29 16:39:29.920][debug] MainWindow -- The state machine is started.
+[2024-01-29 16:39:29.921][debug] MainWindow -- windowed: 0
+[2024-01-29 16:39:29.931][debug] GeneralGalilWorker -- Timestamp when connected -- Galil: 2307.22 seconds PC: 3105.29 seconds
+[2024-01-29 16:39:29.931][debug] AccuBotGalilController -- Encoder count updated to A: 13653 B: 32768 C: 32768 D: 32768
+[2024-01-29 16:39:29.936][debug] GeneralGalilWorker -- Galil script version -- 3
+[2024-01-29 16:39:30.110][debug] WelldImageController -- serial port bytes: 240 162 241 230
+[2024-01-29 16:39:30.110][debug] WelldImageController -- current probe ids: 10,2,14,6
+[2024-01-29 16:39:30.419][debug] WelldImageController -- serial port bytes: 240 162 241 230
+[2024-01-29 16:39:30.420][debug] WelldImageController -- current probe ids: 10,2,14,6
+[2024-01-29 16:39:30.582][warning] Setting -- Key(surgeryModel.originXStep) does not exist in settings, please add the key to the schema to use it
+[2024-01-29 16:39:30.583][warning] Setting -- Key(surgeryModel.originYStep) does not exist in settings, please add the key to the schema to use it
+[2024-01-29 16:39:30.584][warning] Setting -- Key(surgeryModel.originZStep) does not exist in settings, please add the key to the schema to use it
+[2024-01-29 16:39:30.584][warning] Setting -- Key(surgeryModel.rotationYawDegree) does not exist in settings, please add the key to the schema to use it
+[2024-01-29 16:39:30.584][warning] Setting -- Key(surgeryModel.rotationRollDegree) does not exist in settings, please add the key to the schema to use it
+[2024-01-29 16:39:30.584][warning] Setting -- Key(surgeryModel.rotationPitchDegree) does not exist in settings, please add the key to the schema to use it
+[2024-01-29 16:39:30.608][warning] Setting -- Key(hardwareMonitor.warningTolerance) does not exist in settings, please add the key to the schema to use it
+[2024-01-29 16:39:30.609][warning] Setting -- Key(hardwareMonitor.errorTolerance) does not exist in settings, please add the key to the schema to use it
+[2024-01-29 16:39:30.609][warning] Setting -- Key(gui.advancedHardwareControl) does not exist in settings, please add the key to the schema to use it
+[2024-01-29 16:39:30.609][debug] GalilWorker -- Robot command. Size: 8 -- Command: MG TIME;MG _TPA;MG _TPB;MG _TPC;MG _TEA;MG _TEB;MG _TEC;MG moving;
+[2024-01-29 16:39:30.609][debug] GalilWorker -- Water treatment command. Size: 11 -- Command: MG @OUT[5];MG @OUT[6];MG @OUT[7];MG @OUT[8];MG @OUT[do_fil];MG f_water;MG temp_fr;MG temp_tk;MG @IN[14];MG pre_vac;MG lvl_tk;
+[2024-01-29 16:39:30.610][debug] GalilWorker -- Flexi arm command. Size: 6 -- Command: MG @OUT[9];MG @OUT[10];MG @OUT[11];MG @OUT[12];MG f_arm;MG f_lift;
+[2024-01-29 16:39:30.610][debug] GalilWorker -- Input output pins command. Size: 40 -- Command: MG @AN[1];MG @AN[2];MG @AN[3];MG @AN[4];MG @AN[5];MG @AN[6];MG @AN[7];MG @AN[8];MG @IN[1];MG @IN[2];MG @IN[3];MG @IN[4];MG @IN[5];MG @IN[6];MG @IN[7];MG @IN[8];MG @IN[9];MG @IN[10];MG @IN[11];MG @IN[12];MG @IN[13];MG @IN[14];MG @IN[15];MG @IN[16];MG @OUT[1];MG @OUT[2];MG @OUT[3];MG @OUT[4];MG @OUT[5];MG @OUT[6];MG @OUT[7];MG @OUT[8];MG @OUT[9];MG @OUT[10];MG @OUT[11];MG @OUT[12];MG @OUT[13];MG @OUT[14];MG @OUT[15];MG @OUT[16];
+[2024-01-29 16:39:30.610][debug] GalilWorker -- Error tolerance:0
+[2024-01-29 16:39:30.610][debug] GalilWorker -- Warning tolerance:0
+[2024-01-29 16:39:30.610][warning] Setting -- Key(communication.panelComPort) does not exist in settings, please add the key to the schema to use it
+[2024-01-29 16:39:30.611][warning] Setting -- Key(hardwareMonitor.timeInterval) does not exist in settings, please add the key to the schema to use it
+[2024-01-29 16:39:30.611][warning] Setting -- Key(hardwareMonitor.transducerProtectionFeature) does not exist in settings, please add the key to the schema to use it
+[2024-01-29 16:39:30.611][warning] Setting -- Key(hardwareMonitor.emergencyProtectionFeature) does not exist in settings, please add the key to the schema to use it
+[2024-01-29 16:39:30.612][warning] Setting -- Key(hardwareMonitor.diskCheckTimeInterval) does not exist in settings, please add the key to the schema to use it
+[2024-01-29 16:39:30.612][warning] Setting -- Key(hardware.currentAmplifier) does not exist in settings, please add the key to the schema to use it
+[2024-01-29 16:39:30.612][warning] Setting -- Key(communication.relayControllerBrand) does not exist in settings, please add the key to the schema to use it
+[2024-01-29 16:39:30.612][error] HardwareCenter -- Unkown relay controller set 
+[2024-01-29 16:39:30.991][debug] KnobSignalThrottler -- Knob Signal Debouncer Interval is set to 200
+[2024-01-29 16:39:30.991][info] MainWindow -- UGU-600 System
+[2024-01-29 16:39:31.134][debug] HardwareCenter -- Stork software is not started
+[2024-01-29 16:39:31.229][debug] HardwareCenter -- Stork working directory -- D:/Bin
+[2024-01-29 16:39:31.229][debug] HardwareCenter -- Stork software directory not found
+[2024-01-29 16:39:31.229][warning] Hardware -- Unable to connect to ultrasound
+[2024-01-29 16:39:31.230][debug] AccubotStateMachine -- state changed: uninitialised
+[2024-01-29 16:39:31.230][debug] RobotAccuBot --  status changed: not initialised
+[2024-01-29 16:39:31.237][debug] RobotAccuBot --  galil connected
+[2024-01-29 16:39:31.237][debug] MainWindow -- State switched to Ultrasound
+[2024-01-29 16:39:31.241][debug] DynamicBar -- image controller buttons loaded: 5037 5038 5039 5040 5042 5043 5054 
+[2024-01-29 16:39:31.250][debug] RobotAccuBot --  robot initialised
+[2024-01-29 16:39:31.251][debug] WelldOldInterface -- Preset file: :/resources/presets/preset10.ini
+[2024-01-29 16:39:31.265][debug] BiopsyPageStateMachine -- Enter ChooseImportProcessState
+[2024-01-29 16:39:31.281][debug] UromaticPanelController - Response received: aa
+[2024-01-29 16:39:31.295][debug] UromaticPanelController - Response received: aa
+[2024-01-29 16:39:32.832][debug] MainWindow -- State switched to iStack
+[2024-01-29 16:39:34.986][info] WelldImageController -- Daqc connected
+[2024-01-29 16:39:34.986][debug] WelldOldInterface -- setting thi: 1
+[2024-01-29 16:39:34.987][debug] WelldOldInterface -- setting gain: 34
+[2024-01-29 16:39:34.987][debug] WelldOldInterface -- setting frequency: 7.5
+[2024-01-29 16:39:34.987][debug] WelldOldInterface -- setting depth: 6.8
+[2024-01-29 16:39:34.987][debug] WelldOldInterface -- setting direction: 0, current direction 0
+[2024-01-29 16:39:34.988][debug] WelldOldInterface -- tgc updated: 0,0,0,0,0,0,0,0,
+[2024-01-29 16:39:36.144][debug] BiopsyPageStateMachine -- Enter SelectUltrasoundFileState
+[2024-01-29 16:39:37.905][error] WelldImageController -- probe 10 failed to find current xml depth 0 in xml map
+[2024-01-29 16:39:37.905][warning] WelldImageController -- failed to get probe center
+[2024-01-29 16:39:37.906][error] WelldImageController -- probe 10 failed to find current xml depth 0 in xml map
+[2024-01-29 16:39:37.906][warning] WelldImageController -- failed to get probe center
+[2024-01-29 16:39:37.918][error] WelldImageController -- probe 10 failed to find current xml depth 0 in xml map
+[2024-01-29 16:39:37.918][warning] WelldImageController -- failed to get probe center
+[2024-01-29 16:39:37.918][error] WelldImageController -- probe 2 failed to find current xml depth 0 in xml map
+[2024-01-29 16:39:37.919][warning] WelldImageController -- failed to get probe center
+[2024-01-29 16:40:16.287][info] DataManager -- New data added.
+[2024-01-29 16:40:16.287][debug] CentralWidget -- Data Updated with type: 0, row: 0
+[2024-01-29 16:40:16.467][debug] DataManagerWidget -- Data Updated with type: 0, index: 0
+[2024-01-29 16:40:16.468][debug] DataManager -- Row 0 selected
+[2024-01-29 16:40:16.547][debug] BiopsyPageStateMachine -- Enter SelectUltrasoundMainState
+[2024-01-29 16:40:18.483][debug] DataManager -- Row 0 selected
+[2024-01-29 16:40:18.607][debug] BiopsyPageStateMachine -- Enter SelectUltrasoundProstateState
+[2024-01-29 16:40:19.718][debug] BiopsyPageStateMachine -- Enter ChooseSecondImportDataState
+[2024-01-29 16:40:19.758][error] RegistrationManager -- Registration requires 2 volume images to be imported
+[2024-01-29 16:40:20.942][debug] BiopsyPageStateMachine -- Enter SelectMriFileState
+[2024-01-29 16:40:47.310][info] Volume Image Manager -- Found 1 DICOM Cases
+[2024-01-29 16:40:47.311][debug] BiopsyPageStateMachine -- Enter SelectMriSeriesState
+[2024-01-29 16:40:50.359][info] Volume Image Manager -- Importing 1 DICOM Volume Images
+[2024-01-29 16:40:50.550][info] DataManager -- New data added.
+[2024-01-29 16:40:50.635][debug] CentralWidget -- Data Updated with type: 0, row: 0
+[2024-01-29 16:40:50.865][debug] DataManagerWidget -- Data Updated with type: 0, index: 0
+[2024-01-29 16:40:50.866][debug] DataManager -- Row 0 selected
+[2024-01-29 16:40:50.910][debug] BiopsyPageStateMachine -- Enter SelectMriMainFileState
+[2024-01-29 16:40:52.716][debug] DataManager -- Row 0 selected
+[2024-01-29 16:40:52.805][debug] BiopsyPageStateMachine -- Enter SelectMriProstateCenterState
+[2024-01-29 16:40:54.184][debug] UltrastLicense -- module(autoSegmentation) validity check: passed
+[2024-01-29 16:40:55.672][debug] BiopsyPageStateMachine -- Enter ChooseRegistrationState
+[2024-01-29 16:40:55.808][debug] RegistrationManager -- updateImageLocation: transform matrix from mri to us: 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 
+[2024-01-29 16:40:55.808][debug] UltrastLicense -- module(imageRegistration) validity check: passed
+[2024-01-29 16:40:55.822][debug] RegistrationManager -- updateImageLocation: transform matrix from mri to us: 0.999997, -0.00242801, 0, 2.81919, 0.00242801, 0.999997, 0, 75.5131, 0, 0, 1, -26.9701, 0, 0, 0, 1, 
+[2024-01-29 16:40:55.823][debug] RegistrationManager -- doPreregistration
