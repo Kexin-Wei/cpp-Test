@@ -9,13 +9,19 @@
 #include <QGuiApplication>
 #include <QHBoxLayout>
 #include <QMenuBar>
+#include <QRegularExpression>
 #include <QScreen>
+#include <QScrollArea>
 #include <QSplitter>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
       m_levels({"Trace", "Debug", "Info", "Warning", "Error", "Critical"}),
-      m_classes({}) {
+      m_levelsFromLog({}),
+      m_classes({}),
+      m_classesFromLog({}) {
+    for (auto i = 0; i < 20; i++)
+        m_classesFromLog.insert(QString("Class%1").arg(i));
     setMainWindowSize();
     createActions();
     createMenu();
@@ -48,16 +54,18 @@ void MainWindow::createMenu() {
 }
 
 void MainWindow::updateLevelFilter() {
-    auto availableLevels = getAvailaleLevelsFromLog();
     for (const auto &level : m_levels) {
         auto checkBox = m_levelCheckBoxes[level];
-        if (std::find(availableLevels.begin(), availableLevels.end(), level) !=
-            availableLevels.end()) {
+        if (std::find(m_levelsFromLog.begin(), m_levelsFromLog.end(),
+                      level.toLower()) != m_levelsFromLog.end()) {
             checkBox->setEnabled(true);
+            Logger::trace("Level checkbox enabled: {}", level.toStdString());
         } else {
             checkBox->setEnabled(false);
+            Logger::trace("Level checkbox disabled: {}", level.toStdString());
         }
     }
+    Logger::trace("Level checkboxes updated");
 }
 
 void MainWindow::updateClassFilter() {
@@ -65,70 +73,97 @@ void MainWindow::updateClassFilter() {
     for (const auto &className : m_classes) {
         auto button = m_classCheckBoxes[className];
         m_classChoiceGroup->removeButton(button);
-        m_classChoiceLayout->removeWidget(button);
+        m_classCheckBoxLayout->removeWidget(button);
         delete button;
-        Logger::debug("Delete class checkbox: {}", className);
     }
     m_classCheckBoxes.clear();
     m_classes.clear();
-    m_classes = getClassesFromLog();
-    Logger::debug("Classes: {}", m_classes.size());
+    Logger::trace("Class checkboxes removed");
 
+    m_classes = m_classesFromLog;
     for (const auto &className : m_classes) {
-        Logger::debug("Class checkbox created: {}", className);
-        auto button = new QCheckBox(QString::fromStdString(className), this);
-        Logger::debug("1");
+        auto button = new QCheckBox(className, this);
         m_classChoiceGroup->addButton(button);
-        Logger::debug("2");
-        m_classChoiceLayout->addWidget(button);
-        Logger::debug("3");
+        m_classCheckBoxLayout->addWidget(button);
         m_classCheckBoxes[className] = button;
-        Logger::debug("4");
+        Logger::trace("Class checkbox created: {}", className.toStdString());
     }
-    Logger::debug("Class checkboxes updated");
+    Logger::trace("Class checkboxes updated");
 }
 
 QWidget *MainWindow::createSideBar() {
     auto sideBarWidget = new QWidget(this);
-    auto sideBarLayout = new QVBoxLayout(sideBarWidget);
+    auto sideBarLayout = new QHBoxLayout(sideBarWidget);
     sideBarLayout->setAlignment(Qt::AlignTop | Qt::AlignLeft);
 
-    m_levelChoiceLayout = new QVBoxLayout();
-    auto levelChoiceTitle = new QLabel("Log Level", this);
-    m_levelChoiceLayout->addWidget(levelChoiceTitle);
     m_levelChoiceGroup = new QButtonGroup(this);
     m_levelChoiceGroup->setExclusive(false);
-    auto allLevelButton = new QCheckBox("All", this);
-    m_levelChoiceGroup->addButton(allLevelButton);
-    m_levelChoiceLayout->addWidget(allLevelButton);
-    sideBarLayout->addLayout(m_levelChoiceLayout);
-    for (const auto &level : m_levels) {
-        auto button = new QCheckBox(QString::fromStdString(level), this);
-        m_levelChoiceGroup->addButton(button);
-        m_levelChoiceLayout->addWidget(button);
-        button->setDisabled(true);
-        m_levelCheckBoxes[level] = button;
+    {
+        m_levelCheckBoxLayout = new QVBoxLayout();
+        m_levelCheckBoxLayout->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+
+        auto levelChoiceTitle = new QLabel("Log Level", this);
+        auto allLevelButton = new QCheckBox("All", this);
+        m_levelCheckBoxLayout->addWidget(levelChoiceTitle);
+        m_levelCheckBoxLayout->addWidget(allLevelButton);
+
+        {
+            m_levelChoiceGroup->addButton(allLevelButton);
+            for (const auto &level : m_levels) {
+                auto button = new QCheckBox(level, this);
+                m_levelChoiceGroup->addButton(button);
+                m_levelCheckBoxLayout->addWidget(button);
+                button->setDisabled(true);
+                m_levelCheckBoxes[level] = button;
+            }
+        }
+        sideBarLayout->addLayout(m_levelCheckBoxLayout);
     }
+
     updateLevelFilter();
     Logger::debug("Level checkboxes created");
 
-    auto horizontalLine = new QFrame(this);
-    horizontalLine->setFrameShape(QFrame::HLine);
-    horizontalLine->setFrameShadow(QFrame::Sunken);
-    sideBarLayout->addWidget(horizontalLine);
+    {
+        auto verticalLine = new QFrame(this);
+        verticalLine->setFrameShape(QFrame::VLine);
+        verticalLine->setFrameShadow(QFrame::Sunken);
+        sideBarLayout->addWidget(verticalLine);
+    }
 
-    m_classChoiceLayout = new QVBoxLayout();
-    auto classChoiceTitle = new QLabel("Log Class", this);
-    m_classChoiceLayout->addWidget(classChoiceTitle);
     m_classChoiceGroup = new QButtonGroup(this);
     m_classChoiceGroup->setExclusive(false);
-    auto allClassButton = new QCheckBox("All", this);
-    m_classChoiceGroup->addButton(allClassButton);
-    m_classChoiceLayout->addWidget(allClassButton);
-    sideBarLayout->addLayout(m_classChoiceLayout);
+
+    {
+        auto classChoiceLayout = new QVBoxLayout();
+        classChoiceLayout->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+
+        auto classChoiceTitle = new QLabel("Log Class", this);
+        auto allClassButton = new QCheckBox("All", this);
+        m_classChoiceGroup->addButton(allClassButton);
+
+        QScrollArea *scrollArea = new QScrollArea(this);
+        {
+            scrollArea->setWidgetResizable(true);
+            scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+            scrollArea->setFrameShape(QFrame::NoFrame);
+            scrollArea->setContentsMargins(0, 0, 0, 0);
+
+            auto scrollWidget = new QWidget(this);
+            scrollArea->setWidget(scrollWidget);
+            m_classCheckBoxLayout = new QVBoxLayout(scrollWidget);
+            m_classCheckBoxLayout->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+            scrollWidget->setLayout(m_classCheckBoxLayout);
+        }
+        classChoiceLayout->addWidget(classChoiceTitle);
+        classChoiceLayout->addWidget(allClassButton);  // not scrollable
+        classChoiceLayout->addWidget(scrollArea);
+
+        sideBarLayout->addLayout(classChoiceLayout);
+    }
+
+    Logger::debug("Scroll area created");
     updateClassFilter();
     Logger::debug("Class checkboxes created");
-
     return sideBarWidget;
 }
 
@@ -145,6 +180,8 @@ QWidget *MainWindow::createLogView() {
     m_logText->setReadOnly(true);
     m_logText->setLineWrapMode(QTextEdit::NoWrap);
     m_logText->setWordWrapMode(QTextOption::NoWrap);
+
+    Logger::debug("Log view created");
     return logViewWidget;
 }
 
@@ -160,7 +197,7 @@ void MainWindow::createCentralWidget() {
     auto logViewWidget = createLogView();
     splitter->addWidget(sideBarWidget);
     splitter->addWidget(logViewWidget);
-    auto sidebarSize = (int)round(width() * 0.1);
+    auto sidebarSize = (int)round(width() * 0.3);
     splitter->setSizes({sidebarSize, width() - sidebarSize});
     auto splitterHandle = splitter->handle(1);
     auto splitterHandleLayout = new QVBoxLayout(splitterHandle);
@@ -222,6 +259,7 @@ void MainWindow::openFile() {
     m_logText->setPlainText(in.readAll());
     file.close();
     updateLogFileName();
+    updateSideBarFilters();
 }
 
 void MainWindow::updateLogFileName() {
@@ -231,6 +269,32 @@ void MainWindow::updateLogFileName() {
         m_logFileName->setText(
             QString("File: %1").arg(m_currentLog->fileName()));
     }
+    m_levelsFromLog.clear();
+    m_classesFromLog.clear();
+    updateSideBarFilters();
+}
+
+void MainWindow::updateSideBarFilters() {
+    QString levelReg = "\\[(\\w+)\\]";
+    QString classReg = "\\s*(\\w+)\\s*-";
+    QRegularExpression levelClassRegex(levelReg + classReg);
+    m_levelsFromLog.clear();
+    m_classesFromLog.clear();
+
+    auto text = m_logText->toPlainText();
+    auto matches = levelClassRegex.globalMatch(text);
+    while (matches.hasNext()) {
+        auto match = matches.next();
+        auto level = match.captured(1);
+        auto className = match.captured(2);
+        m_levelsFromLog.insert(level.toLower());
+        m_classesFromLog.insert(className.toLower());
+        Logger::debug("Level: {}, Class: {}", level.toStdString(),
+                      className.toStdString());
+    }
+    updateLevelFilter();
+    updateClassFilter();
+    Logger::debug("Update sidebar filters");
 }
 
 void MainWindow::closeFile() {
@@ -238,13 +302,6 @@ void MainWindow::closeFile() {
     m_logText->clear();
     m_currentLog = nullptr;
     updateLogFileName();
-}
-
-std::vector<std::string> MainWindow::getAvailaleLevelsFromLog() {
-    return {"Trace", "Debug", "Info", "Warning", "Error", "Critical"};
-}
-std::vector<std::string> MainWindow::getClassesFromLog() {
-    return {"Class1", "Class2", "Class3", "Class4", "Class5"};
 }
 
 void MainWindow::showHelpDialog() {

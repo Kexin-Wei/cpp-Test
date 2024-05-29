@@ -24,6 +24,8 @@ a qt based log reader to read spd log more efficiently
 - [ ] show user action to status bar
 - [ ] save filter settings for next time
 - [ ] provide highlight mode
+- [ ] click on empty logview to open file
+- [ ] scroll area has gap to the left side
 
 
 

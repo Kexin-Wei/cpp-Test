@@ -1,62 +1,63 @@
 
-#include <QMainWindow>
-#include <QVBoxLayout>
 #include <QAction>
-#include <QTextEdit>
+#include <QButtonGroup>
+#include <QCheckBox>
 #include <QFileInfo>
 #include <QLabel>
-#include <QCheckBox>
-#include <QButtonGroup>
+#include <QMainWindow>
+#include <QTextEdit>
+#include <QVBoxLayout>
+#include <set>
 
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
- MainWindow(QWidget* parent = nullptr);
- ~MainWindow();
+    MainWindow(QWidget* parent = nullptr);
+    ~MainWindow();
 
 private slots:
- void openFile();
- void closeFile();
+    void openFile();
+    void closeFile();
 
 private:
- void setMainWindowSize();
- void createActions();
- void createMenu();
- void createStatusBar();
+    void setMainWindowSize();
+    void createActions();
+    void createMenu();
+    void createStatusBar();
 
- void createCentralWidget();
- QWidget* createSideBar();
- QWidget* createLogView();
- void updateLogFileName();
+    void createCentralWidget();
+    QWidget* createSideBar();
+    QWidget* createLogView();
+    void updateLogFileName();
 
- void showHelpDialog();
- void showAboutDialog();
- const QString getHelpText();
+    void showHelpDialog();
+    void showAboutDialog();
+    const QString getHelpText();
 
- void updateLevelFilter();
- void updateClassFilter();
- std::vector<std::string> getAvailaleLevelsFromLog();
- std::vector<std::string> getClassesFromLog();
+    void updateLevelFilter();
+    void updateClassFilter();
+    void updateSideBarFilters();
 
- QTextEdit* m_logText;
- QFileInfo* m_currentLog;
- QLabel* m_logFileName;
+    QTextEdit* m_logText;
+    QFileInfo* m_currentLog;
+    QLabel* m_logFileName;
 
- QAction* m_helpAction;
- QAction* m_aboutAction;
- QAction* m_openAction;
- QAction* m_closeAction;
+    QAction* m_helpAction;
+    QAction* m_aboutAction;
+    QAction* m_openAction;
+    QAction* m_closeAction;
 
- QVBoxLayout* m_levelChoiceLayout;
- QVBoxLayout* m_classChoiceLayout;
- QButtonGroup* m_levelChoiceGroup;
- QButtonGroup* m_classChoiceGroup;
+    QVBoxLayout* m_levelCheckBoxLayout;
+    QVBoxLayout* m_classCheckBoxLayout;
+    QButtonGroup* m_levelChoiceGroup;
+    QButtonGroup* m_classChoiceGroup;
 
- std::map<std::string, QCheckBox*> m_levelCheckBoxes;
- std::vector<std::string> m_levels;
+    std::map<QString, QCheckBox*> m_levelCheckBoxes;
+    std::set<QString> m_levels;
+    std::set<QString> m_levelsFromLog;
 
- std::map<std::string, QCheckBox*> m_classCheckBoxes;
- std::vector<std::string> m_classes;
+    std::map<QString, QCheckBox*> m_classCheckBoxes;
+    std::set<QString> m_classes;
+    std::set<QString> m_classesFromLog;
 };
