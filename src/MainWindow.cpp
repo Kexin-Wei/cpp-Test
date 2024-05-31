@@ -16,10 +16,21 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
-      m_levels({"Trace", "Debug", "Info", "Warning", "Error", "Critical"}),
-      m_levelsFromLog({}),
+      m_classesFromLog({}),
       m_classes({}),
-      m_classesFromLog({}) {
+      m_levelsFromLog({}),
+      m_levels({{LogLevel::TRACE, "Trace"},
+                {LogLevel::DEBUG, "Debug"},
+                {LogLevel::INFO, "Info"},
+                {LogLevel::WARNING, "Warning"},
+                {LogLevel::ERROR, "Error"},
+                {LogLevel::CRITICAL, "Critical"}}),
+      m_levelColors({{LogLevel::TRACE, Qt::gray},
+                     {LogLevel::DEBUG, Qt::blue},
+                     {LogLevel::INFO, Qt::green},
+                     {LogLevel::WARNING, Qt::darkYellow},
+                     {LogLevel::ERROR, Qt::red},
+                     {LogLevel::CRITICAL, Qt::darkRed}}) {
     for (auto i = 0; i < 20; i++)
         m_classesFromLog.insert(QString("Class%1").arg(i));
     setMainWindowSize();
@@ -54,15 +65,17 @@ void MainWindow::createMenu() {
 }
 
 void MainWindow::updateLevelFilter() {
-    for (const auto &level : m_levels) {
-        auto checkBox = m_levelCheckBoxes[level];
-        if (std::find(m_levelsFromLog.begin(), m_levelsFromLog.end(),
-                      level.toLower()) != m_levelsFromLog.end()) {
+    for (const auto &[levelEnum, levelString] : m_levels) {
+        auto checkBox = m_levelCheckBoxes[levelEnum];
+        if (auto search = m_levelsFromLog.find(levelString.toLower());
+            search == m_levelsFromLog.end()) {
             checkBox->setEnabled(true);
-            Logger::trace("Level checkbox enabled: {}", level.toStdString());
+            Logger::trace("Level checkbox enabled: {}",
+                          levelString.toStdString());
         } else {
             checkBox->setEnabled(false);
-            Logger::trace("Level checkbox disabled: {}", level.toStdString());
+            Logger::trace("Level checkbox disabled: {}",
+                          levelString.toStdString());
         }
     }
     Logger::trace("Level checkboxes updated");
@@ -109,12 +122,12 @@ QWidget *MainWindow::createSideBar() {
 
         {
             m_levelChoiceGroup->addButton(allLevelButton);
-            for (const auto &level : m_levels) {
-                auto button = new QCheckBox(level, this);
+            for (const auto &[levelEnum, levelString] : m_levels) {
+                auto button = new QCheckBox(levelString, this);
                 m_levelChoiceGroup->addButton(button);
                 m_levelCheckBoxLayout->addWidget(button);
                 button->setDisabled(true);
-                m_levelCheckBoxes[level] = button;
+                m_levelCheckBoxes[levelEnum] = button;
             }
         }
         sideBarLayout->addLayout(m_levelCheckBoxLayout);
@@ -256,10 +269,26 @@ void MainWindow::openFile() {
         return;
     }
     QTextStream in(&file);
-    m_logText->setPlainText(in.readAll());
+    m_logTextContent = in.readAll();
+    m_logText->setPlainText(m_logTextContent);
     file.close();
     updateLogFileName();
+    showLevelInDifferentColor();
     updateSideBarFilters();
+}
+
+void MainWindow::showLevelInDifferentColor() {
+    for (auto &[levelEnum, levelString] : m_levels) {
+        auto levelShown = levelString.toLower();
+        auto color = m_levelColors[levelEnum].name();
+        auto format = QString("<span style=\"color: %1;\">%2</span>")
+                          .arg(color)
+                          .arg(levelShown);
+        m_logText->moveCursor(QTextCursor::Start);
+        m_logText->find(levelShown);  // TODO: not working
+        m_logText->insertHtml(format);
+    }
+    Logger::debug("Show level in different color");
 }
 
 void MainWindow::updateLogFileName() {
@@ -274,10 +303,10 @@ void MainWindow::updateLogFileName() {
     updateSideBarFilters();
 }
 
+void MainWindow::updateLogView() { showLevelInDifferentColor(); }
+
 void MainWindow::updateSideBarFilters() {
-    QString levelReg = "\\[(\\w+)\\]";
-    QString classReg = "\\s*(\\w+)\\s*-";
-    QRegularExpression levelClassRegex(levelReg + classReg);
+    QRegularExpression levelClassRegex(m_levelReg + m_classReg);
     m_levelsFromLog.clear();
     m_classesFromLog.clear();
 
@@ -287,13 +316,14 @@ void MainWindow::updateSideBarFilters() {
         auto match = matches.next();
         auto level = match.captured(1);
         auto className = match.captured(2);
-        m_levelsFromLog.insert(level.toLower());
+        m_levelsFromLog.insert(capitalize(level.toLower()));
         m_classesFromLog.insert(className.toLower());
         Logger::debug("Level: {}, Class: {}", level.toStdString(),
                       className.toStdString());
     }
     updateLevelFilter();
     updateClassFilter();
+    updateLogView();
     Logger::debug("Update sidebar filters");
 }
 
@@ -364,4 +394,8 @@ void MainWindow::showAboutDialog() {
     aboutDialog->setWindowFlags(Qt::WindowType::Popup);
     aboutDialog->setWindowTitle("About");
     aboutDialog->exec();
+}
+
+QString MainWindow::capitalize(const QString &str) {
+    return str.at(0).toUpper() + str.mid(1);
 }
