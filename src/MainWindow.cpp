@@ -27,7 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
                 {LogLevel::CRITICAL, "Critical"}}),
       m_levelColors({{LogLevel::TRACE, Qt::gray},
                      {LogLevel::DEBUG, Qt::blue},
-                     {LogLevel::INFO, Qt::green},
+                     {LogLevel::INFO, Qt::darkGreen},
                      {LogLevel::WARNING, Qt::darkYellow},
                      {LogLevel::ERROR, Qt::red},
                      {LogLevel::CRITICAL, Qt::darkRed}}) {
@@ -269,24 +269,44 @@ void MainWindow::openFile() {
         return;
     }
     QTextStream in(&file);
-    m_logTextContent = in.readAll();
-    m_logText->setPlainText(m_logTextContent);
+    m_logText->setPlainText(in.readAll());
     file.close();
     updateLogFileName();
-    showLevelInDifferentColor();
+    updateLogView();
     updateSideBarFilters();
 }
 
-void MainWindow::showLevelInDifferentColor() {
-    for (auto &[levelEnum, levelString] : m_levels) {
-        auto levelShown = levelString.toLower();
-        auto color = m_levelColors[levelEnum].name();
-        auto format = QString("<span style=\"color: %1;\">%2</span>")
-                          .arg(color)
-                          .arg(levelShown);
-        m_logText->moveCursor(QTextCursor::Start);
-        m_logText->find(levelShown);  // TODO: not working
-        m_logText->insertHtml(format);
+void MainWindow::updateLogView() {
+    auto logTextHtml = m_logText->toHtml();
+    showLevelInDifferentColor(logTextHtml);
+    m_logText->setHtml(logTextHtml);
+}
+
+void MainWindow::showLevelInDifferentColor(QString &logTextHtml) {
+    auto levelClassRegex = QRegularExpression(QString("%1").arg(m_levelReg));
+    auto matches = levelClassRegex.globalMatch(logTextHtml);
+    std::vector<QRegularExpressionMatch> revertedMatches;
+
+    while (matches.hasNext()) {
+        auto match = matches.next();
+        revertedMatches.push_back(match);
+    }
+    for (int i = revertedMatches.size() - 1; i >= 0; i--) {
+        auto match = revertedMatches[i];
+        auto level = match.captured(1);
+        for (const auto &[levelEnum, levelString] : m_levels) {
+            if (levelString.toLower() == level.toLower()) {
+                auto color = m_levelColors[levelEnum].name();
+                auto original = match.capturedTexts().at(0);
+                auto replace = QString("<span style=\"color: %1;\">%2</span>")
+                                   .arg(color)
+                                   .arg(original);
+                logTextHtml.replace(match.capturedStart(),
+                                    match.capturedLength(), replace);
+                Logger::trace("match: {}, replace: {}", original.toStdString(),
+                              replace.toStdString());
+            }
+        }
     }
     Logger::debug("Show level in different color");
 }
@@ -300,10 +320,8 @@ void MainWindow::updateLogFileName() {
     }
     m_levelsFromLog.clear();
     m_classesFromLog.clear();
-    updateSideBarFilters();
+    Logger::debug("Update log file name");
 }
-
-void MainWindow::updateLogView() { showLevelInDifferentColor(); }
 
 void MainWindow::updateSideBarFilters() {
     QRegularExpression levelClassRegex(m_levelReg + m_classReg);
@@ -318,12 +336,11 @@ void MainWindow::updateSideBarFilters() {
         auto className = match.captured(2);
         m_levelsFromLog.insert(capitalize(level.toLower()));
         m_classesFromLog.insert(className.toLower());
-        Logger::debug("Level: {}, Class: {}", level.toStdString(),
+        Logger::trace("Level: {}, Class: {}", level.toStdString(),
                       className.toStdString());
     }
     updateLevelFilter();
     updateClassFilter();
-    updateLogView();
     Logger::debug("Update sidebar filters");
 }
 
@@ -332,6 +349,7 @@ void MainWindow::closeFile() {
     m_logText->clear();
     m_currentLog = nullptr;
     updateLogFileName();
+    updateSideBarFilters();
 }
 
 void MainWindow::showHelpDialog() {

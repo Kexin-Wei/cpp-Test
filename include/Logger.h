@@ -50,7 +50,7 @@ inline void init_logger() {
                                                            developerSink,
                                                        })));
     spdlog::set_level(spdlog::level::trace);
-    consoleSink->set_level(spdlog::level::trace);
+    consoleSink->set_level(spdlog::level::debug);
     fileSink->set_level(spdlog::level::trace);
     developerSink->set_level(spdlog::level::trace);
     spdlog::flush_on(spdlog::level::trace);

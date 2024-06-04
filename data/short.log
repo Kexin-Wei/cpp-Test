@@ -1,0 +1,60 @@
+[2024-01-29 16:39:29.804][debug] Logger -- The logger is initialized
+[2024-01-29 16:39:29.887][debug] CoordinateRepository -- World To Transmitter -- Transform matrix: 0,-1,0,0,0,0,1,0,-1,0,0,800,0,0,0,1
+[2024-01-29 16:39:29.887][debug] CoordinateRepository -- Split transform matrix of World To Transmitter :
+[2024-01-29 16:39:29.887][debug] GeneralGalilWorker -- 192.168.1.20 -d --timeout 5000
+[2024-01-29 16:39:29.888][debug] CoordinateRepository -- 0 0 0 1
+[2024-01-29 16:39:29.889][info] Database -- Database opened
+[2024-01-29 16:39:29.914][warning] HardwareCenter -- Connecting to the tracking device
+[2024-01-29 16:39:29.917][debug] GeneralGalilWorker -- Connection info -- 192.168.1.20, DMC4143 Rev 1.3k, 27939
+[2024-01-29 16:39:29.918][info] TrackingDeviceConnectWorker -- System         : No BIRDs were found anywhere                 
+
+[2024-01-29 16:39:29.918][info] TrackingDeviceConnectWorker -- the tracking device can't be connected, better restart the tracking device and try again
+[2024-01-29 16:39:29.919][debug] MainWindow -- Shortcut bootstraped!
+[2024-01-29 16:39:30.420][debug] WelldImageController -- current probe ids: 10,2,14,6
+[2024-01-29 16:39:30.582][warning] Setting -- Key(surgeryModel.originXStep) does not exist in settings, please add the key to the schema to use it
+[2024-01-29 16:39:30.612][error] HardwareCenter -- Unkown relay controller set 
+[2024-01-29 16:39:30.991][debug] KnobSignalThrottler -- Knob Signal Debouncer Interval is set to 200
+[2024-01-29 16:39:30.991][info] MainWindow -- UGU-600 System
+[2024-01-29 16:39:31.229][debug] HardwareCenter -- Stork software directory not found
+[2024-01-29 16:39:31.229][warning] Hardware -- Unable to connect to ultrasound
+[2024-01-29 16:39:31.230][debug] AccubotStateMachine -- state changed: uninitialised
+[2024-01-29 16:39:31.237][debug] MainWindow -- State switched to Ultrasound
+[2024-01-29 16:39:31.241][debug] DynamicBar -- image controller buttons loaded: 5037 5038 5039 5040 5042 5043 5054 
+[2024-01-29 16:39:32.832][debug] MainWindow -- State switched to iStack
+[2024-01-29 16:39:34.986][info] WelldImageController -- Daqc connected
+[2024-01-29 16:39:34.988][debug] WelldOldInterface -- tgc updated: 0,0,0,0,0,0,0,0,
+[2024-01-29 16:39:36.144][debug] BiopsyPageStateMachine -- Enter SelectUltrasoundFileState
+[2024-01-29 16:39:37.905][error] WelldImageController -- probe 10 failed to find current xml depth 0 in xml map
+[2024-01-29 16:39:37.905][warning] WelldImageController -- failed to get probe center
+[2024-01-29 16:39:37.906][error] WelldImageController -- probe 10 failed to find current xml depth 0 in xml map
+[2024-01-29 16:39:37.906][warning] WelldImageController -- failed to get probe center
+[2024-01-29 16:39:37.918][error] WelldImageController -- probe 10 failed to find current xml depth 0 in xml map
+[2024-01-29 16:39:37.918][warning] WelldImageController -- failed to get probe center
+[2024-01-29 16:39:37.918][error] WelldImageController -- probe 2 failed to find current xml depth 0 in xml map
+[2024-01-29 16:39:37.919][warning] WelldImageController -- failed to get probe center
+[2024-01-29 16:40:16.287][info] DataManager -- New data added.
+[2024-01-29 16:40:16.287][debug] CentralWidget -- Data Updated with type: 0, row: 0
+[2024-01-29 16:40:16.467][debug] DataManagerWidget -- Data Updated with type: 0, index: 0
+[2024-01-29 16:40:16.468][debug] DataManager -- Row 0 selected
+[2024-01-29 16:40:16.547][debug] BiopsyPageStateMachine -- Enter SelectUltrasoundMainState
+[2024-01-29 16:40:18.483][debug] DataManager -- Row 0 selected
+[2024-01-29 16:40:18.607][debug] BiopsyPageStateMachine -- Enter SelectUltrasoundProstateState
+[2024-01-29 16:40:19.718][debug] BiopsyPageStateMachine -- Enter ChooseSecondImportDataState
+[2024-01-29 16:40:19.758][error] RegistrationManager -- Registration requires 2 volume images to be imported
+[2024-01-29 16:40:20.942][debug] BiopsyPageStateMachine -- Enter SelectMriFileState
+[2024-01-29 16:40:47.310][info] Volume Image Manager -- Found 1 DICOM Cases
+[2024-01-29 16:40:47.311][debug] BiopsyPageStateMachine -- Enter SelectMriSeriesState
+[2024-01-29 16:40:50.359][info] Volume Image Manager -- Importing 1 DICOM Volume Images
+[2024-01-29 16:40:50.550][info] DataManager -- New data added.
+[2024-01-29 16:40:50.635][debug] CentralWidget -- Data Updated with type: 0, row: 0
+[2024-01-29 16:40:50.865][debug] DataManagerWidget -- Data Updated with type: 0, index: 0
+[2024-01-29 16:40:50.866][debug] DataManager -- Row 0 selected
+[2024-01-29 16:40:50.910][debug] BiopsyPageStateMachine -- Enter SelectMriMainFileState
+[2024-01-29 16:40:52.716][debug] DataManager -- Row 0 selected
+[2024-01-29 16:40:52.805][debug] BiopsyPageStateMachine -- Enter SelectMriProstateCenterState
+[2024-01-29 16:40:54.184][debug] UltrastLicense -- module(autoSegmentation) validity check: passed
+[2024-01-29 16:40:55.672][debug] BiopsyPageStateMachine -- Enter ChooseRegistrationState
+[2024-01-29 16:40:55.808][debug] RegistrationManager -- updateImageLocation: transform matrix from mri to us: 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 
+[2024-01-29 16:40:55.808][debug] UltrastLicense -- module(imageRegistration) validity check: passed
+[2024-01-29 16:40:55.822][debug] RegistrationManager -- updateImageLocation: transform matrix from mri to us: 0.999997, -0.00242801, 0, 2.81919, 0.00242801, 0.999997, 0, 75.5131, 0, 0, 1, -26.9701, 0, 0, 0, 1, 
+[2024-01-29 16:40:55.823][debug] RegistrationManager -- doPreregistration

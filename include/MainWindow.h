@@ -42,12 +42,12 @@ private:
     void updateLevelFilter();
     void updateClassFilter();
     void updateSideBarFilters();
-    void showLevelInDifferentColor();
+
     void updateLogView();
+    void showLevelInDifferentColor(QString & logTextHtml);
 
     QString capitalize(const QString& str);
 
-    QString m_logTextContent;
     QTextEdit* m_logText;
     QFileInfo* m_currentLog;
     QLabel* m_logFileName;

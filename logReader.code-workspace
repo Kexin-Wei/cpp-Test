@@ -10,7 +10,12 @@
 			"*.tcc": "cpp",
 			"fstream": "cpp",
 			"chrono": "cpp",
-			"string_view": "cpp"
+			"string_view": "cpp",
+			"string": "cpp"
 		}
+	},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": []
 	}
 }
