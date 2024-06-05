@@ -2,9 +2,9 @@
 a qt based log reader to read spd log more efficiently
 
 ## Dependencies
-- Qt6.2
+- Qt6.2 (linux) / Qt6.5(MSVC2022)
 - CMake (3.22)
-- spdlog (1.9.2)
+- spdlog (1.14.1)
 - boost (1.77.0)
 
 ## Features

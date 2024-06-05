@@ -8,13 +8,22 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOMOC ON)
 
 # Qt
+if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    set(CMAKE_PREFIX_PATH "C:/Qt/Qt-6.5.3/lib/cmake/")
+endif()
+
 find_package(Qt6 REQUIRED COMPONENTS
     Core
     Widgets
 )
 
 # third party libs
-set(spdlog_DIR "${CMAKE_SOURCE_DIR}/lib/spdlog/lib/cmake/spdlog")
+# if linux
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    set(CMAKE_PREFIX_PATH "${CMAKE_SOURCE_DIR}/lib/spdlog/linux/lib/cmake/spdlog")
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    set(CMAKE_PREFIX_PATH "${CMAKE_SOURCE_DIR}/lib/spdlog/msvc2022/lib/cmake/spdlog")
+endif()
 find_package(spdlog REQUIRED)
 
 file(GLOB_RECURSE ${PROJECT_NAME}_SRC "src/*.cpp" "src/*.cxx" "src/*.c")
