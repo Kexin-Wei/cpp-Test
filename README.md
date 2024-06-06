@@ -21,7 +21,11 @@ a qt based log reader to read spd log more efficiently
 - [x] regex find log level and class
 - [x] add regex result to side bar
 - [x] show all levels in different colors
-- [ ] filter log given sidebar choices
+- [x] update sidebar level given text
+- [x] handle check all logic in level udpating
+- [ ] handle check all logic in class updating
+- [ ] filter log level given sidebar choices
+- [ ] filter log class given sidebar choices
 - [ ] show user action to status bar
 - [ ] save filter settings for next time
 - [ ] provide highlight mode

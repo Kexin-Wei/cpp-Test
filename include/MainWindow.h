@@ -25,6 +25,7 @@ private slots:
     void closeFile();
 
 private:
+// creating ui
     void setMainWindowSize();
     void createActions();
     void createMenu();
@@ -33,24 +34,34 @@ private:
     void createCentralWidget();
     QWidget* createSideBar();
     QWidget* createLogView();
-    void updateLogFileName();
 
     void showHelpDialog();
     void showAboutDialog();
     const QString getHelpText();
 
-    void updateLevelFilter();
-    void updateClassFilter();
-    void updateSideBarFilters();
+    // update ui from file
+    void fileChanged();
+    void updateLogFileNameFromFile();
+    void updateSideBarFiltersFromFile();
+    void updateLogViewFromFile();
 
-    void updateLogView();
+    void updateLevelFilterFromFile();
+    void updateClassFilterFromFile();
+
+    // general functions
+    void filterLogText(QString& logTextHtml);
+    void filterLogText(QString& logTextHtml, const std::set<QString>& classes,
+                       const std::set<LogLevel>& levels);
     void showLevelInDifferentColor(QString & logTextHtml);
 
+    // utils
+    bool getLogLevelFromString(const QString& level, LogLevel& logLevel);
     QString capitalize(const QString& str);
 
-    QTextEdit* m_logText;
     QFileInfo* m_currentLog;
     QLabel* m_logFileName;
+    QTextEdit* m_logText;
+    QString* m_logTextHtmlBackup;
 
     QAction* m_helpAction;
     QAction* m_aboutAction;

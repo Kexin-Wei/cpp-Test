@@ -43,6 +43,7 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow() {}
 
 void MainWindow::setMainWindowSize() {
+    Logger::debug("MainWindow creating");
     auto desktop = QGuiApplication::primaryScreen();
     auto screenRect = desktop->availableGeometry();
     auto width = screenRect.width() * 0.8;
@@ -56,6 +57,7 @@ void MainWindow::setMainWindowSize() {
 }
 
 void MainWindow::createMenu() {
+    Logger::debug("Menu creating");
     auto fileMenu = menuBar()->addMenu(tr("&File"));
     fileMenu->addAction(m_openAction);
     fileMenu->addAction(m_closeAction);
@@ -64,24 +66,37 @@ void MainWindow::createMenu() {
     Logger::debug("Menu created");
 }
 
-void MainWindow::updateLevelFilter() {
+void MainWindow::updateLevelFilterFromFile() {
+    Logger::debug("Level checkboxes updating");
+    int countEnabled = 0;
+    for (const auto &level : m_levelsFromLog) {
+        Logger::debug("Level from log: {}", level.toStdString());
+    }
     for (const auto &[levelEnum, levelString] : m_levels) {
         auto checkBox = m_levelCheckBoxes[levelEnum];
-        if (auto search = m_levelsFromLog.find(levelString.toLower());
-            search == m_levelsFromLog.end()) {
+        if (auto search = m_levelsFromLog.find(levelString);
+            search != m_levelsFromLog.end()) {
             checkBox->setEnabled(true);
-            Logger::trace("Level checkbox enabled: {}",
+            checkBox->setChecked(true);
+            countEnabled++;
+            Logger::debug("Level checkbox enabled: {}",
                           levelString.toStdString());
+
         } else {
             checkBox->setEnabled(false);
+            checkBox->setChecked(false);
             Logger::trace("Level checkbox disabled: {}",
                           levelString.toStdString());
         }
     }
+    if (countEnabled == m_levelsFromLog.size()) {
+        m_levelChoiceGroup->button(0)->setChecked(true);
+    }
     Logger::trace("Level checkboxes updated");
 }
 
-void MainWindow::updateClassFilter() {
+void MainWindow::updateClassFilterFromFile() {
+    Logger::debug("Class checkboxes updating");
     // remove all existing class checkboxes
     for (const auto &className : m_classes) {
         auto button = m_classCheckBoxes[className];
@@ -105,6 +120,7 @@ void MainWindow::updateClassFilter() {
 }
 
 QWidget *MainWindow::createSideBar() {
+    Logger::debug("Side bar creating");
     auto sideBarWidget = new QWidget(this);
     auto sideBarLayout = new QHBoxLayout(sideBarWidget);
     sideBarLayout->setAlignment(Qt::AlignTop | Qt::AlignLeft);
@@ -119,9 +135,10 @@ QWidget *MainWindow::createSideBar() {
         auto allLevelButton = new QCheckBox("All", this);
         m_levelCheckBoxLayout->addWidget(levelChoiceTitle);
         m_levelCheckBoxLayout->addWidget(allLevelButton);
+        m_levelChoiceGroup->addButton(allLevelButton);
+        m_levelChoiceGroup->setId(allLevelButton, 0);
 
         {
-            m_levelChoiceGroup->addButton(allLevelButton);
             for (const auto &[levelEnum, levelString] : m_levels) {
                 auto button = new QCheckBox(levelString, this);
                 m_levelChoiceGroup->addButton(button);
@@ -132,8 +149,6 @@ QWidget *MainWindow::createSideBar() {
         }
         sideBarLayout->addLayout(m_levelCheckBoxLayout);
     }
-
-    updateLevelFilter();
     Logger::debug("Level checkboxes created");
 
     {
@@ -153,6 +168,7 @@ QWidget *MainWindow::createSideBar() {
         auto classChoiceTitle = new QLabel("Log Class", this);
         auto allClassButton = new QCheckBox("All", this);
         m_classChoiceGroup->addButton(allClassButton);
+        m_classChoiceGroup->setId(allClassButton, 0);
 
         QScrollArea *scrollArea = new QScrollArea(this);
         {
@@ -173,14 +189,12 @@ QWidget *MainWindow::createSideBar() {
 
         sideBarLayout->addLayout(classChoiceLayout);
     }
-
-    Logger::debug("Scroll area created");
-    updateClassFilter();
     Logger::debug("Class checkboxes created");
     return sideBarWidget;
 }
 
 QWidget *MainWindow::createLogView() {
+    Logger::debug("Log view creating");
     auto logViewWidget = new QWidget(this);
     auto logViewLayout = new QVBoxLayout(logViewWidget);
     m_logFileName = new QLabel("No file opened.", this);
@@ -199,6 +213,7 @@ QWidget *MainWindow::createLogView() {
 }
 
 void MainWindow::createCentralWidget() {
+    Logger::debug("Central widget creating");
     auto centralWidget = new QWidget(this);
     setCentralWidget(centralWidget);
 
@@ -227,9 +242,13 @@ void MainWindow::createCentralWidget() {
     Logger::debug("Central widget created");
 }
 
-void MainWindow::createStatusBar() { Logger::debug("Status bar created"); }
+void MainWindow::createStatusBar() {
+    Logger::debug("Status bar creating");
+    Logger::debug("Status bar created");
+}
 
 void MainWindow::createActions() {
+    Logger::debug("Actions creating");
     m_openAction = new QAction(tr("&Open"), this);
     m_openAction->setShortcuts(QKeySequence::Open);
     m_openAction->setStatusTip(tr("Open a file"));
@@ -255,7 +274,7 @@ void MainWindow::createActions() {
 }
 
 void MainWindow::openFile() {
-    Logger::debug("Open file");
+    Logger::debug("File opening");
     auto fileName = QFileDialog::getOpenFileName(this, tr("Open Log File"), "",
                                                  tr("Log Files (*.log)"));
     if (fileName.isEmpty()) {
@@ -270,19 +289,72 @@ void MainWindow::openFile() {
     }
     QTextStream in(&file);
     m_logText->setPlainText(in.readAll());
+    m_logTextHtmlBackup = new QString(m_logText->toHtml());
     file.close();
-    updateLogFileName();
-    updateLogView();
-    updateSideBarFilters();
+    fileChanged();
+    Logger::debug("File opened");
 }
 
-void MainWindow::updateLogView() {
+void MainWindow::fileChanged() {
+    updateLogFileNameFromFile();
+    updateSideBarFiltersFromFile();
+    updateLogViewFromFile();
+}
+
+void MainWindow::updateLogViewFromFile() {
+    if (m_currentLog == nullptr) {  // no file opened
+        return;
+    }
+    Logger::debug("Log view updating");
     auto logTextHtml = m_logText->toHtml();
+    filterLogText(logTextHtml);
     showLevelInDifferentColor(logTextHtml);
     m_logText->setHtml(logTextHtml);
+    Logger::debug("Log view updated");
+}
+
+void MainWindow::filterLogText(QString &logTextHtml) {
+    Logger::debug("Log text filtering");
+    // filter level
+    auto levelRegex = QRegularExpression(m_levelReg);
+    bool previousLineMatched = false;
+    QString emptyHtml;
+    for (auto line : logTextHtml.split("\n")) {
+        if (line.isEmpty()) {
+            continue;
+        }
+        auto match = levelRegex.match(line);
+        if (match.hasMatch()) {
+            auto level = match.captured(1);
+            LogLevel levelEnum;
+            if (!getLogLevelFromString(level, levelEnum)) {
+                Logger::error("Unknown log level: {}", level.toStdString());
+                continue;
+            }
+            auto checkBox = m_levelCheckBoxes[levelEnum];
+            if (checkBox->isChecked()) {
+                previousLineMatched = true;
+                emptyHtml.append(line);
+                Logger::trace("Append line: {}", line.toStdString());
+            } else {
+                previousLineMatched = false;
+            }
+        } else {
+            if (previousLineMatched) {
+                emptyHtml.append(line);
+                Logger::trace("Append line: {}", line.toStdString());
+            }
+        }
+    }
+
+    // TODO: filter class
+
+    logTextHtml = emptyHtml;
+    Logger::debug("Log text filtered");
 }
 
 void MainWindow::showLevelInDifferentColor(QString &logTextHtml) {
+    Logger::debug("Showing level in different color");
     auto levelClassRegex = QRegularExpression(QString("%1").arg(m_levelReg));
     auto matches = levelClassRegex.globalMatch(logTextHtml);
     std::vector<QRegularExpressionMatch> revertedMatches;
@@ -308,22 +380,21 @@ void MainWindow::showLevelInDifferentColor(QString &logTextHtml) {
             }
         }
     }
-    Logger::debug("Show level in different color");
+    Logger::debug("Showed level in different color");
 }
 
-void MainWindow::updateLogFileName() {
+void MainWindow::updateLogFileNameFromFile() {
+    Logger::trace("Update log file name");
     if (m_currentLog == nullptr) {
         m_logFileName->setText("No file opened.");
     } else {
         m_logFileName->setText(
             QString("File: %1").arg(m_currentLog->fileName()));
     }
-    m_levelsFromLog.clear();
-    m_classesFromLog.clear();
-    Logger::debug("Update log file name");
+    Logger::trace("Update log file name");
 }
 
-void MainWindow::updateSideBarFilters() {
+void MainWindow::updateSideBarFiltersFromFile() {
     QRegularExpression levelClassRegex(m_levelReg + m_classReg);
     m_levelsFromLog.clear();
     m_classesFromLog.clear();
@@ -339,17 +410,17 @@ void MainWindow::updateSideBarFilters() {
         Logger::trace("Level: {}, Class: {}", level.toStdString(),
                       className.toStdString());
     }
-    updateLevelFilter();
-    updateClassFilter();
+    updateLevelFilterFromFile();
+    updateClassFilterFromFile();
     Logger::debug("Update sidebar filters");
 }
 
 void MainWindow::closeFile() {
-    Logger::debug("Close file");
-    m_logText->clear();
+    Logger::debug("File closing");
     m_currentLog = nullptr;
-    updateLogFileName();
-    updateSideBarFilters();
+    m_logText->clear();
+    fileChanged();
+    Logger::debug("File closed");
 }
 
 void MainWindow::showHelpDialog() {
@@ -416,4 +487,15 @@ void MainWindow::showAboutDialog() {
 
 QString MainWindow::capitalize(const QString &str) {
     return str.at(0).toUpper() + str.mid(1);
+}
+
+bool MainWindow::getLogLevelFromString(const QString &level,
+                                       LogLevel &logLevel) {
+    for (const auto &[levelEnum, levelString] : m_levels) {
+        if (levelString.toLower() == level.toLower()) {
+            logLevel = levelEnum;
+            return true;
+        }
+    }
+    return false;
 }
