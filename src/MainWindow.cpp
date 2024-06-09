@@ -113,9 +113,12 @@ void MainWindow::updateClassFilterFromFile() {
         auto button = new QCheckBox(className, this);
         m_classChoiceGroup->addButton(button);
         m_classCheckBoxLayout->addWidget(button);
+        button->setEnabled(true);
+        button->setChecked(true);
         m_classCheckBoxes[className] = button;
         Logger::trace("Class checkbox created: {}", className.toStdString());
     }
+    m_classChoiceGroup->button(0)->setChecked(true);  // default set class all
     Logger::trace("Class checkboxes updated");
 }
 
