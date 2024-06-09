@@ -23,7 +23,9 @@ a qt based log reader to read spd log more efficiently
 - [x] show all levels in different colors
 - [x] update sidebar level given text
 - [x] handle check all logic in level udpating
-- [ ] handle check all logic in class updating
+- [x] handle check all logic in class updating
+- [x] separate log text handling from mainwindow
+- [ ] define text to button and button to text update sequence (UML)
 - [ ] filter log level given sidebar choices
 - [ ] filter log class given sidebar choices
 - [ ] show user action to status bar
