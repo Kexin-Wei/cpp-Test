@@ -76,7 +76,10 @@
 			"typeinfo": "cpp",
 			"variant": "cpp",
 			"qbuttongroup": "cpp"
-		}
+		},
+		"cmake.configureArgs": [
+			"-DQt6_DIR=D:/Softwares/Qt/6.8.1/msvc2022_64/lib/cmake/Qt6"
+		]
 	},
 	"launch": {
 		"version": "0.2.0",

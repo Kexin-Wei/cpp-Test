@@ -9,7 +9,7 @@ set(CMAKE_AUTOMOC ON)
 
 # Qt
 if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-    set(CMAKE_PREFIX_PATH "C:/Qt/Qt-6.5.3/lib/cmake/")
+    set(CMAKE_PREFIX_PATH "D:/Softwares/Qt/6.8.1/msvc2022_64/lib/cmake/")
 endif()
 
 find_package(Qt6 REQUIRED COMPONENTS
