@@ -44,3 +44,17 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/lib/spdlog/include
     ${CMAKE_SOURCE_DIR}/include
 )
+
+if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    # Get the path to windeployqt
+    get_target_property(_qmake_executable Qt6::qmake IMPORTED_LOCATION)
+    get_filename_component(_qt_bin_dir "${_qmake_executable}" DIRECTORY)
+    find_program(WINDEPLOYQT_EXECUTABLE windeployqt HINTS "${_qt_bin_dir}")
+
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND "${CMAKE_COMMAND}" -E
+        env PATH="${_qt_bin_dir}" "${WINDEPLOYQT_EXECUTABLE}"
+        "$<TARGET_FILE:${PROJECT_NAME}>"
+        COMMENT "Running windeployqt..."
+    )
+endif()

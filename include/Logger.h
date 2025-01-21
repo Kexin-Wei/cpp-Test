@@ -27,8 +27,10 @@ inline void init_logger() {
     std::tm *localTime = std::localtime(&currentTime);
     std::string currentDateTime = std::asctime(localTime);
     currentDateTime.pop_back();  // remove newline character
-    std::string fileName = "logs/log_" + currentDateTime + ".log";
-    std::string devFileName = "logs/log_dev_" + currentDateTime + ".log";
+    // std::string fileName = "logs/log_" + currentDateTime + ".log"; //Windows has error but no in linux
+    std::string fileName = "logs/log.log";
+    // std::string devFileName = "logs/log_dev_" + currentDateTime + ".log";
+    std::string devFileName = "logs/log_dev.log";
 
     auto consoleSink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
     consoleSink->set_pattern("[%T.%e][%^%l%$] %v");

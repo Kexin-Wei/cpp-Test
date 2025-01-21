@@ -194,26 +194,26 @@ void LogTextProcessor::showLevelInDifferentColor(QString &logTextHtml) {
     Logger::debug("Showed level in different color");
 }
 
-// void LogTextProcessor::updateSideBarFiltersFromFile() {
-//     QRegularExpression levelClassRegex(m_levelReg + m_classReg);
-//     m_levelsFromLog.clear();
-//     m_classesFromLog.clear();
+ //void LogTextProcessor::updateSideBarFiltersFromFile() {
+ //    QRegularExpression levelClassRegex(m_levelReg + m_classReg);
+ //    m_levelsFromLog.clear();
+ //    m_classesFromLog.clear();
 
-//     auto text = m_logText->toPlainText();
-//     auto matches = levelClassRegex.globalMatch(text);
-//     while (matches.hasNext()) {
-//         auto match = matches.next();
-//         auto level = match.captured(1);
-//         auto className = match.captured(2);
-//         m_levelsFromLog.insert(capitalize(level.toLower()));
-//         m_classesFromLog.insert(className.toLower());
-//         Logger::trace("Level: {}, Class: {}", level.toStdString(),
-//                       className.toStdString());
-//     }
-//     updateLevelFilterFromFile();
-//     updateClassFilterFromFile();
-//     Logger::debug("Update sidebar filters");
-// }
+ //    auto text = m_logText->toPlainText();
+ //    auto matches = levelClassRegex.globalMatch(text);
+ //    while (matches.hasNext()) {
+ //        auto match = matches.next();
+ //        auto level = match.captured(1);
+ //        auto className = match.captured(2);
+ //        m_levelsFromLog.insert(capitalize(level.toLower()));
+ //        m_classesFromLog.insert(className.toLower());
+ //        Logger::trace("Level: {}, Class: {}", level.toStdString(),
+ //                      className.toStdString());
+ //    }
+ //    updateLevelFilterFromFile();
+ //    updateClassFilterFromFile();
+ //    Logger::debug("Update sidebar filters");
+ //}
 
 QString LogTextProcessor::capitalize(const QString &str) {
     return str.at(0).toUpper() + str.mid(1);
